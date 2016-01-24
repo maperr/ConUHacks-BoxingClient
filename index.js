@@ -90,7 +90,7 @@ $(function() {
   NewTweet = function(tweet) {
   var numberOfPostsToShow = 5;
   
-  obj = "<li class='received tweet' id='messageList1'>" +
+  obj = "<li class='received tweet' id='messageList'>" +
                 '<img src="http://placehold.it/32x32" />' +
                 '<h4>DiplayName</h4>'+
                 '<h5>@Username</h5>'+
@@ -163,7 +163,7 @@ FilterClient.prototype.requestTrending = function() {
   }));
 }
 
-Filter.prototype.addTrackedTopic = function(topic) {
+FilterClient.prototype.addTrackedTopic = function(topic) {
   this.socket.send(JSON.stringify({
     command : 'ADD_TOPIC',
     payload : {
@@ -172,7 +172,7 @@ Filter.prototype.addTrackedTopic = function(topic) {
   }));
 }
 
-Filter.prototype.addTrackedTopic = function(topic) {
+FilterClient.prototype.removeTrackedTopic = function(topic) {
   this.socket.send(JSON.stringify({
     command : 'REMOVE_TOPIC',
     payload : {
