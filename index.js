@@ -35,7 +35,7 @@ $(function() {
   NewTweet = function(tweet) {
   var numberOfPostsToShow = 5;
   
-  obj = "<li class='received tweet' id='messageList1'>" +
+  obj = "<li class='received tweet' id='messageList'>" +
                 '<img src="http://placehold.it/32x32" />' +
                 '<h4>DiplayName</h4>'+
                 '<h5>@Username</h5>'+
