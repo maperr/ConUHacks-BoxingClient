@@ -1,12 +1,15 @@
 var client;
 
+var tweets = [];
+var tweet;
+
 $(function() {
 
    client = new FilterClient();
 
   client.onNewTweet = function(tweet) {
-      //TODO: jQuery manipulations
-      console.log(tweet);
+
+    console.log(tweet);
   }
 
   client.onStatUpdate = function(stats) {
