@@ -108,7 +108,7 @@ FilterClient.prototype.requestTrending = function() {
   }));
 }
 
-Filter.prototype.addTrackedTopic = function(topic) {
+FilterClient.prototype.addTrackedTopic = function(topic) {
   this.socket.send(JSON.stringify({
     command : 'ADD_TOPIC',
     payload : {
@@ -117,7 +117,7 @@ Filter.prototype.addTrackedTopic = function(topic) {
   }));
 }
 
-Filter.prototype.addTrackedTopic = function(topic) {
+FilterClient.prototype.removeTrackedTopic = function(topic) {
   this.socket.send(JSON.stringify({
     command : 'REMOVE_TOPIC',
     payload : {
