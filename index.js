@@ -1,13 +1,65 @@
 var client;
 
 var tweets = [];
-var tweet;
 
 $(function() {
 
-   client = new FilterClient();
+  var tweetObj = function(payload, tweets) {
+    this.content = payload.tweet.content;
+    this.language = payload.tweet.language;
+    this.isMean = payload.result.isMean;
+    this.avgConfidence = payload.result.avgConfidence;
+    this.displayName = payload.tweet.display_name;
+    this.username = payload.tweet.username;
+    this.date = payload.tweet.date;
+    if(!(payload.tweet.attachedImages instanceof Array)) {
+      this.imgUrl = [payload.tweet.attachedImages];
+    }
+    else this.imgUrl = payload.tweet.attachedImages;
+
+    if(!(payload.result.intents instanceof Array)) {
+      this.intents = [payload.result.intents];
+    }
+    else this.intents = payload.result.intents;
+
+    if(!(payload.tweet.hashtags instanceof Array)) {
+      this.hashtags = [payload.tweet.hashtags];
+    }
+    else this.hashtags = payload.tweet.hashtags;
+
+    tweets.push(this);
+  };
+
+  var tweets = [];
+
+  function addContact(payload) {
+    new tweetObj(name, numbers, address, AddressBook)
+  }
+
+
+  client = new FilterClient();
+
+  var tweetImgUrl;
+  var tweetDiplayName;
+  var tweetUsername;
+  var tweetTime;
+  var tweetMessage;
+  var tweetHashtags = [];
+  var tweetLang;
+  var tweetIsMean;
+  var tweetAvgConfidence
+  var tweetIntents = [];
 
   client.onNewTweet = function(tweet) {
+    tweetMessage = tweet.tweet.content;
+    tweetImgUrl = tweet.tweet.attachedImages;
+    tweetLang = tweet.tweet.language;
+    tweetHashtags = tweet.tweet.hashtags;
+    tweetIntents = tweet.result.intents;
+    tweetIsMean = tweet.result.isMean;
+    tweetAvgConfidence = tweet.result.avgConfidence;
+
+    tweets.push( )
 
     console.log(tweet);
   }
