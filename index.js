@@ -12,7 +12,6 @@
 });*/
 
 $(function() {
-  var numberOfPostsToShow = 5;
   $("#addHashtag").click(function() {
     new NewTweet();
 
@@ -35,6 +34,8 @@ $(function() {
 });
 
 NewTweet = function(tweet) {
+  var numberOfPostsToShow = 5;
+  
   obj = "<li class='received tweet' id='messageList1'>" +
                 '<img src="http://placehold.it/32x32" />' +
                 '<h4>DiplayName</h4>'+
@@ -43,8 +44,9 @@ NewTweet = function(tweet) {
                 '<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus dictum interdum ante non gravida. Duis fringilla pulvinar mi, non vestibulum felis dapibus non. Nunc elementum eleifend pretium. Phasellus mattis felis.</p>'+
             '</li>';
   $("#messages").prepend(obj);
-  if($(".tweet").length > numberOfPostsToShow)
+  if($(".tweet").length > numberOfPostsToShow){
     $(".tweet").last().remove();
+  }
 }
 
 FilterClient = function() {
