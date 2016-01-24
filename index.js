@@ -21,13 +21,14 @@ $(function() {
 
   client.connect();
 
-  $("#addHashtag").click(function() {
+  $("#fakeTweet").click(function(){
     new NewTweet();
+  });
 
+  $("#addHashtag").click(function() {
     if($("#message").val().trim())
       $("#current-hashtags").append("<span>" + $("#message").val() + ", </span>");
       //TODO: tell client to follow this hashtag
-
   });
 });
 
