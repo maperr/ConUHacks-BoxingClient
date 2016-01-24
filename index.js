@@ -1,53 +1,102 @@
+var client;
 
+$(function() {
 
-// var R = require("request");
+   client = new FilterClient();
 
-// var key = 'qco0kTVO5GHh37T7FKeI4ACSa';
-// var secret = 'foqwPKYifY0TP2ljQDtDLVc6mQ6tj0dZyXFr18FioLHcLFNqnj';
-// var cat = key +":"+secret;
-// var credentials = new Buffer(cat).toString('base64');
+  client.onNewTweet = function(tweet) {
+      //TODO: jQuery manipulations
+      console.log(tweet);
+  }
 
-// var url = 'https://api.twitter.com/oauth2/token';
+  client.onStatUpdate = function(stats) {
+      //TODO: jQuery manipulations
+      console.log(stats);
+  }
 
-// R({ url: url,
-//     method:'POST',
-//     headers: {
-//         "Authorization": "Basic " + credentials,
-//         "Content-Type":"application/x-www-form-urlencoded;charset=UTF-8"
-//     },
-//     body: "grant_type=client_credentials"
+  client.onTrendingRecieved = function(trending) {
+      //TODO: jQuery manipulations
+      console.log(trending);
+  }
 
-// }, function(err, resp, body) {
+  client.connect();
 
-//     console.dir(body); //the bearer token...
+});
 
-// });
+FilterClient = function() {
+  this.onNewTweet = function(tweet) {
+    console.log('You must override this event handler');
+  }
 
-// $(function() {
-//   var x = 0;
-//   $.getJSON("https://api.twitter.com/1.1/trends/place.json?id=1", function(result) {
-//       console.log(++x);
-//       $.each(result, function(i, field) {
+  this.onStatUpdate = function(stats) {
+    console.log('You must override this event handler');
+  }
 
-//             console.log(field);
-//       });
-//   });
+  this.onTrendingRecieved = function(trending) {
+    console.log('You must override this event handler');
+  }
+}
 
-  // var socket = new WebSocket('');
+FilterClient.prototype.connect = function() {
+  this.socket = new WebSocket('ws://172.31.194.25:1338');
+  console.log('Connecting...');
 
+  var that = this;
 
-  // socket.onopen = function() {
+  this.socket.onopen = function() {
+    console.log('Connected to the tweet filter');
+  }
 
-  // }
+  this.socket.onclose = function() {
+    console.log('Connection to the tweet filter closed');
+  }
 
-  // socket.onclose = function () {
-    
-  // }
+  this.socket.onerror = function(err) {
+    console.log('Error');
+    console.log(err);
+  }
 
-  // socket.onmessage = function(event) {
+  this.socket.onmessage = function(event) {
+      var response = JSON.parse(event.data);
 
-  // }
+      if(response.command == "NEW_TWEET"){
+          that.onNewTweet(response.payload);
+      } else if(response.command == "STATS_RESPONSE") {
+        that.onStatUpdate(response.payload);
+      } else if(response.command == "TRENDING_RESPONSE") {
+        that.onTrendingRecieved(response.payload);
+      }
+  }
+}
 
+FilterClient.prototype.requestStats = function() {
+  this.socket.send(JSON.stringify({
+    command : 'STATS_REQUEST',
+    payload : {}
+  }));
+}
 
-// });
+FilterClient.prototype.requestTrending = function() {
+  this.socket.send(JSON.stringify({
+    command : 'REQUEST_TRENDING',
+    payload : {}
+  }));
+}
 
+Filter.prototype.addTrackedTopic = function(topic) {
+  this.socket.send(JSON.stringify({
+    command : 'ADD_TOPIC',
+    payload : {
+      topic : topic
+    }
+  }));
+}
+
+Filter.prototype.addTrackedTopic = function(topic) {
+  this.socket.send(JSON.stringify({
+    command : 'REMOVE_TOPIC',
+    payload : {
+      topic : topic
+    }
+  }));
+}
